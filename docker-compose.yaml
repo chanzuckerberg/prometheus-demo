@@ -1,0 +1,69 @@
+version: '3.3'
+services:
+  grafana:
+    image: "grafana/grafana:5.0.0-beta3"
+    volumes:
+      - "./config/provisioning:/etc/grafana/provisioning"
+      - "./config/custom.ini:/etc/grafana/custom.ini"
+      - "./dashboards:/var/lib/grafana/dashboards"
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:3000/api/health && echo 'ready'"]
+      interval: 10s
+      retries: 30
+  prometheus:
+    image: "prom/prometheus"
+    volumes:
+      - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./config/prometheus.rules:/etc/prometheus/prometheus.rules"
+    ports:
+      - "9090:9090"
+  aggregator:
+    image: "chanzuckerberg/prometheus-demo"
+    command: ["python3", "aggregator.py"]
+    ports:
+      - "5000:80"
+      - "5001:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost/health && echo 'ready'"]
+      interval: 10s
+      retries: 30
+  kv_store_0:
+    image: "chanzuckerberg/prometheus-demo"
+    ports:
+      - "8080:80"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost/health && echo 'ready'"]
+      interval: 10s
+      retries: 30
+  kv_store_1:
+    image: "chanzuckerberg/prometheus-demo"
+    ports:
+      - "8081:80"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost/health && echo 'ready'"]
+      interval: 10s
+      retries: 30
+  kv_store_2:
+    image: "chanzuckerberg/prometheus-demo"
+    ports:
+      - "8082:80"
+    environment:
+      - MEAN_LAG=0.1
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost/health && echo 'ready'"]
+      interval: 10s
+      retries: 30
+  simulate_jobs:
+    image: "chanzuckerberg/prometheus-demo"
+    command: ["python3", "simulate_jobs.py"]
+    depends_on:
+      - aggregator
+  simulate_http_traffic:
+    image: "chanzuckerberg/prometheus-demo"
+    command: ["python3", "simulate_http_traffic.py"]
+    depends_on:
+      - kv_store_0
+      - kv_store_1
+      - kv_store_2
