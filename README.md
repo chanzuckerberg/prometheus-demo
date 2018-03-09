@@ -26,7 +26,10 @@ The `docker-compose.yaml` configuration sets up three instances of an HTTP key/v
 
 * The code that implements of the key/value store with prometheus instrumentation in `kv_store.py`.
 * The code that synthesizes traffic on these instances can be found in `simulate_http_traffic.py.`
-* The Grafana server is preconfigured with a [dashboard for HTTP metrics](http://localhost:3000/d/Xq2D8b3kz/http-metrics?refresh=10s&orgId=1).
+
+The Grafana server is preconfigured with the [dashboard for HTTP metrics](http://localhost:3000/d/Xq2D8b3kz/http-metrics?refresh=10s&orgId=1) shown below.
+
+![http dashboard!](https://github.com/chanzuckerberg/prometheus-demo/blob/master/static/http_dashboard.png?raw=true)
 
 ## Monitoring short-lived jobs
 
