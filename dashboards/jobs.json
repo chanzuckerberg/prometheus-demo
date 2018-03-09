@@ -16,9 +16,192 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1520429447039,
+  "iteration": 1520588583277,
   "links": [],
   "panels": [
+    {
+      "aliasColors": {
+        "failure": "#bf1b00",
+        "failure (own axis)": "#c15c17",
+        "success": "#629e51"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 2,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 7,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "$$hashKey": "object:1200",
+          "expr": "sum(rate(job_latency_seconds_count{pipeline_id=~\"$pipeline\"}[$window])) by (status)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{status}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Aggregate Request Status, pipeline=$pipeline [Rate]",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1483",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1484",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {
+        "failure": "#bf1b00",
+        "failure (own axis)": "#c15c17",
+        "success": "#629e51"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 2,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 9,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "$$hashKey": "object:1200",
+          "expr": "sum(rate(job_latency_seconds_count{pipeline_id=~\"$pipeline\",status=\"failure\"}[$window])) by (pipeline_id)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{pipeline_id}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [
+        {
+          "$$hashKey": "object:2107",
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Failures, pipeline=$pipeline [Rate]",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1483",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1484",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
     {
       "aliasColors": {},
       "bars": false,
@@ -30,7 +213,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 7
       },
       "id": 2,
       "legend": {
@@ -57,7 +240,7 @@
       "targets": [
         {
           "$$hashKey": "object:367",
-          "expr": "histogram_quantile(.50, sum(rate(job_latency_seconds_bucket{stage_id=\"total\"}[$window])) by (pipeline_id, le))",
+          "expr": "histogram_quantile(.50, sum(rate(job_latency_seconds_bucket{stage_id=\"total\",pipeline_id=~\"$pipeline\"}[$window])) by (pipeline_id, le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{pipeline_id}}",
@@ -67,7 +250,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Median Pipeline Latencies",
+      "title": "Median Latencies by Pipeline",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -111,7 +294,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 7
       },
       "id": 3,
       "legend": {
@@ -138,7 +321,7 @@
       "targets": [
         {
           "$$hashKey": "object:420",
-          "expr": "histogram_quantile(.95, sum(rate(job_latency_seconds_bucket{stage_id=\"total\"}[$window])) by (pipeline_id, le))",
+          "expr": "histogram_quantile(.95, sum(rate(job_latency_seconds_bucket{stage_id=\"total\",pipeline_id=~\"$pipeline\"}[$window])) by (pipeline_id, le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{pipeline_id}}",
@@ -156,7 +339,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "95th Quantile Pipeline Latencies",
+      "title": "95th Quantile Latencies by Pipeline",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -198,11 +381,116 @@
       "fill": 2,
       "gridPos": {
         "h": 7,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 7
+        "y": 14
       },
       "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "$$hashKey": "object:261",
+          "expr": "histogram_quantile(1.0, sum(rate(job_latency_seconds_bucket{pipeline_id=~\"$pipeline\",stage_id=\"total\"}[$window])) by (le))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "1.0qt",
+          "refId": "B"
+        },
+        {
+          "$$hashKey": "object:817",
+          "expr": "histogram_quantile(.5, sum(rate(job_latency_seconds_bucket{pipeline_id=~\"$pipeline\",stage_id=\"total\"}[$window])) by (le))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "0.5qt",
+          "refId": "A"
+        },
+        {
+          "$$hashKey": "object:838",
+          "expr": "histogram_quantile(0.01, sum(rate(job_latency_seconds_bucket{pipeline_id=~\"$pipeline\",stage_id=\"total\"}[$window])) by (le))",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "0.01qt",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 60
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Pipeline Latency Dist., pipeline=$pipeline",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 2,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "id": 8,
       "legend": {
         "avg": false,
         "current": false,
@@ -245,7 +533,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Pipeline: $pipeline, Stage Latencies",
+      "title": "50th Qt. Latencies by Stage, pipeline=$pipeline",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -288,8 +576,8 @@
       "gridPos": {
         "h": 7,
         "w": 12,
-        "x": 0,
-        "y": 14
+        "x": 12,
+        "y": 21
       },
       "id": 6,
       "legend": {
@@ -334,96 +622,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Pipeline: $pipeline, Worker 95th Quantile Latencies",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 14
-      },
-      "id": 7,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "$$hashKey": "object:1200",
-          "expr": "topk(5, histogram_quantile(.95, sum(rate(job_latency_seconds_bucket{pipeline_id=~\"$pipeline\",stage_id=\"total\"}[$window])) by (input_id,le)))",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{input_id}}-95qt",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 60
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Pipeline: $pipeline, Input 95th Quantile Latencies",
+      "title": "Worker 95th Quantile Latencies, pipeline=$pipeline",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -526,8 +725,8 @@
         "allValue": ".*",
         "current": {
           "tags": [],
-          "text": "10x",
-          "value": "10x"
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "prometheus",
         "hide": 0,
@@ -538,13 +737,13 @@
         "options": [
           {
             "$$hashKey": "object:1891",
-            "selected": false,
+            "selected": true,
             "text": "All",
             "value": "$__all"
           },
           {
             "$$hashKey": "object:1892",
-            "selected": true,
+            "selected": false,
             "text": "10x",
             "value": "10x"
           },
@@ -605,5 +804,5 @@
   "timezone": "",
   "title": "Job Statistics",
   "uid": "RcrJyiRiz",
-  "version": 11
+  "version": 2
 }

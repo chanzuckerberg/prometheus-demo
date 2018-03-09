@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 import random
-import binascii
-import os
 import time
 import http.client
 import urllib.parse
@@ -10,10 +8,6 @@ import urllib.parse
 def random_select(lst):
     random_index = random.randrange(0, len(lst))
     return list(lst)[random_index]
-
-
-def random_hexidecimal(n):
-    return binascii.b2a_hex(os.urandom(n)).decode('utf-8')
 
 
 def generate_pipeline_latencies(pipeline_id, worker_id):
@@ -39,12 +33,6 @@ def main():
     pipeline_ids = ['10x', 'smart-seq2', 'make-coffee']
     worker_ids = ['worker1', 'worker2', 'worker3']
 
-    def gen_input_id():
-        return random_hexidecimal(8)
-
-    huge_input_id = gen_input_id()
-    other_inputs = [gen_input_id() for i in range(9)]
-
     while True:
         pipeline_id = random_select(pipeline_ids)
         worker_id = random_select(worker_ids)
@@ -62,13 +50,9 @@ def main():
                 status = 'failure'
 
             if huge_input:
-                input_id = huge_input_id
                 latency += 10.0
-            else:
-                input_id = random_select(other_inputs)
 
             args = {
-                'input_id': input_id,
                 'worker_id': worker_id,
                 'stage_id': stage_id,
                 'status': status,
