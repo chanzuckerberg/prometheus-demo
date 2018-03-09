@@ -18,6 +18,8 @@ To start the servers, use [docker-compose](https://docs.docker.com/compose/).
 docker-compose up
 ```
 
+You will have to wait a few minutes before metrics start to appear on the dashboards described in the following sections.
+
 ## Monitoring HTTP microservices
 
 The `docker-compose.yaml` configuration sets up three instances of an HTTP key/value store microservice (similar to memcached).
