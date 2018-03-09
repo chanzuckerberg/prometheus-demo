@@ -34,7 +34,10 @@ The `docker-compose.yaml` configuration sets up a metrics aggregator that short-
 
 * The code that implements the metrics aggregator lives in `aggregator.py`.
 * The code that synthesizes batch job metrics is in `simulate_jobs.py`
-* The Grafana server is preconfigured with a [dashboard job metrics](http://localhost:3000/d/RcrJyiRiz/job-statistics?refresh=30s&orgId=1).
+
+The Grafana server is preconfigured with the [dashboard job metrics](http://localhost:3000/d/RcrJyiRiz/job-statistics?refresh=30s&orgId=1) shown below.
+
+![jobs dashboard!](https://github.com/chanzuckerberg/prometheus-demo/blob/master/static/jobs_dashboard.png?raw=true)
 
 ## Operating the servers
 
