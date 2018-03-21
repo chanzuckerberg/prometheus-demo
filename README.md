@@ -62,5 +62,5 @@ On the grafana server there is a sample [HTTP dashboard](http://localhost:3000/d
 Shut it down when you're done!
 
 ```bash
-docker-compse down
+docker-compose down
 ```
